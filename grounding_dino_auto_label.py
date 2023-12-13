@@ -84,7 +84,7 @@ labels = [f"{CLASSES[class_id]} {confidence:0.2f}"
 in detections]
 annotated_frame = box_annotator.annotate(scene=image.copy(), detections=detections, labels=labels)
 
-# %matplotlib inline
+%matplotlib inline
 svn.plot_image(annotated_frame, (16, 16))
 
 import os
