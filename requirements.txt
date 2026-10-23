@@ -1,0 +1,7 @@
+# Versions the pipeline was built and tested with (Google Colab, GPU runtime).
+# GroundingDINO is installed from source at a pinned commit, see README.
+torch>=2.0
+torchvision
+opencv-python
+supervision==0.4.0
+tqdm
