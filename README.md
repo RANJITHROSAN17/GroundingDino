@@ -12,6 +12,10 @@ pre-existing labels.
 Built for a PPE / industrial-safety use case (`person`, `helmet`, `vibrocharger`), but the classes
 are just strings — change them and it works for anything Grounding DINO can describe.
 
+[**Open the runnable notebook in Colab**](https://colab.research.google.com/github/RANJITHROSAN17/GroundingDino/blob/main/grounding_dino_auto_label.ipynb) · [Inspect notebook source](grounding_dino_auto_label.ipynb)
+
+**Status:** legacy GPU workflow with pinned dependencies. The notebook structure and directory setup are checked locally; GPU inference, downloads and export compatibility have not been revalidated here. Review generated boxes before using them for training.
+
 ## How it works
 
 ```
@@ -32,13 +36,10 @@ images/ ──► Grounding DINO (Swin-T, open-vocabulary) ──► boxes + cla
 
 ## Running it
 
-The pipeline lives in `grounding_dino_auto_label.py`, which is an exported **Google Colab notebook**
-(it contains `!pip`, `!wget` and `drive.mount` cells), so the intended way to run it is to paste it
-back into Colab with a GPU runtime:
+Use `grounding_dino_auto_label.ipynb`, a real notebook with the exported Colab shell and directory magics restored. The `.py` export is not a standalone Python program, and renaming it to `.ipynb` does not convert it.
 
-1. Open a new Colab notebook → *Runtime → Change runtime type → GPU*.
-2. Copy the contents of `grounding_dino_auto_label.py` into cells (each block separated by a blank
-   line is one cell), or upload it via *File → Upload notebook* after renaming to `.ipynb`.
+1. Open the linked notebook in Colab → *Runtime → Change runtime type → GPU*.
+2. Inspect the setup and Drive access before running the pipeline cell. Installation and weights require network downloads; do not put sensitive images in an unfamiliar cloud runtime.
 3. Put your images in a zip on Google Drive and adjust `SOURCE_IMAGE_PATH` / the `unzip` path.
 4. Edit the parameters:
 
@@ -50,16 +51,17 @@ back into Colab with a GPU runtime:
 
 5. Run all cells. Download `annotations.zip` at the end.
 
-Running locally instead of Colab: install the pinned Grounding DINO commit and
-`requirements.txt`, remove the `!`-prefixed shell lines and the Drive mount, and run the script
-with Python ≥ 3.9 on a CUDA machine (CPU works but is slow).
+### Local execution is a porting task
+
+This repository does not currently provide a tested local CLI. A local port must replace Colab Drive paths, IPython magics and downloads, and reproduce the pinned Grounding DINO/supervision environment. Do not run the exported `.py` with plain Python and expect the Colab shell syntax to work.
+
+### Check the notebook without downloading weights
 
 ```bash
-git clone https://github.com/IDEA-Research/GroundingDINO.git
-cd GroundingDINO && git checkout 57535c5a79791cb76e36fdb64975271354f10251 && pip install -e .
-mkdir weights && wget -P weights https://github.com/IDEA-Research/GroundingDINO/releases/download/v0.1.0-alpha/groundingdino_swint_ogc.pth
-pip install -r ../requirements.txt
+python -m unittest discover -s tests -v
 ```
+
+These standard-library checks verify notebook structure, a clean output state and directory setup. They do not verify GPU inference or the upstream dependencies. A useful issue includes the failing cell, traceback, GPU/runtime versions and pinned dependency versions, without private Drive URLs or images.
 
 ## Tips that made a difference
 
@@ -78,6 +80,10 @@ pip install -r ../requirements.txt
 |---|---|
 | GroundingDINO | commit `57535c5` (v0.1.0-alpha weights, Swin-T OGC) |
 | supervision | 0.4.0 (the `Detections` tuple layout changed in later versions) |
+
+## Maintainer
+
+**[Ranjith Rosan](https://github.com/RANJITHROSAN17)** maintains this repository’s Grounding DINO auto-labelling workflow. Grounding DINO and supervision are separate upstream projects; their authors and licenses retain their original credit.
 
 ## License
 
