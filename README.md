@@ -81,6 +81,10 @@ These standard-library checks verify notebook structure, a clean output state an
 | GroundingDINO | commit `57535c5` (v0.1.0-alpha weights, Swin-T OGC) |
 | supervision | 0.4.0 (the `Detections` tuple layout changed in later versions) |
 
+## Maintainer
+
+**[Ranjith Rosan](https://github.com/RANJITHROSAN17)** maintains this repository’s Grounding DINO auto-labelling workflow. Grounding DINO and supervision are separate upstream projects; their authors and licenses retain their original credit.
+
 ## License
 
 Code in this repository is released under the [Unlicense](LICENSE). Grounding DINO is Apache-2.0
